@@ -1,0 +1,14 @@
+.gitignore
+include_rules
+
+NIMFLAGS += --nimcache:".nimcache"
+NIMFLAGS += --deadcodeElim:on
+NIMFLAGS += -d:release
+NIMFLAGS += -d:ssl
+NIMFLAGS += -d:threads
+NIMFLAGS += --verbosity:0
+
+!nim = |> nim c $(NIMFLAGS) -o:%o %f && rm -rf .nimcache |>
+
+: foreach capnpSchema/*.capnp |>  capnp compile -onim %f > %o |> capnpSchema/%B.nim
+: capnpSchema/*.nim |> !nim |> nayukiFsService
