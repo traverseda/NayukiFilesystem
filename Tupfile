@@ -2,13 +2,14 @@
 include_rules
 
 NIMFLAGS += --nimcache:".nimcache"
-NIMFLAGS += --deadcodeElim:on
-NIMFLAGS += -d:release
-NIMFLAGS += -d:ssl
-NIMFLAGS += -d:threads
-NIMFLAGS += --verbosity:0
+#NIMFLAGS += --deadcodeElim:on
+#NIMFLAGS += -d:release
+#NIMFLAGS += -d:ssl
+NIMFLAGS += --threads:on
+#NIMFLAGS += --verbosity:0
 
 !nim = |> nim c $(NIMFLAGS) -o:%o %f && rm -rf .nimcache |>
 
+#: capnpSchema/files.capnp | capnpSchema/tags.capnp |>  capnp compile -onim %f > %o |> capnpSchema/%B.nim
 : foreach capnpSchema/*.capnp |>  capnp compile -onim %f > %o |> capnpSchema/%B.nim
-: capnpSchema/*.nim |> !nim |> nayukiFsService
+: nayukiFsService.nim | capnpSchema/*.nim |> !nim |> nayukiFsService

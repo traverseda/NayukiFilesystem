@@ -8,3 +8,4 @@ license     = "AGPL"
 # Deps
 
 requires "nim >= 0.10.0"
+requires "reactor >= 0.4.6"
