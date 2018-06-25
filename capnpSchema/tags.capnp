@@ -15,18 +15,17 @@ struct Tag {
         text @2 :Text;
         bool @3 :Bool;
         unixTime @4 :UInt64;
-    }    
+    }
 }
 
 struct Query {
     #Queries obviously need to be little chunka of bytecode.
     #But without building a capnproto interface to webassembly
     # we're just going to build a quick-and-dirty AST.
-
 }
 
-interface QuerySet(exposedObject) {
+interface QuerySet(exposedObjectType) {
+    #We try to more or less follow django's queryset api
     filter @0 (query :Query) -> (self :QuerySet);
-    latest @1 () -> (result :exposedObject);
-#    run @2 () -> (values :List(exposedObject));
+    pop @1 () -> (result :exposedObjectType);
 }

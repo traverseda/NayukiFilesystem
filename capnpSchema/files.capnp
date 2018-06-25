@@ -11,10 +11,8 @@ interface File extends(QuerySet(File)){
 interface TempFile extends(QuerySet(TempFile)){
    #Tempfiles are addresable by uuid and support
    #standard unix file operations
-
 }
 
 interface Stream extends(QuerySet(Stream)){
    #Streams are pubsub mechanism based on tags
-
 }
