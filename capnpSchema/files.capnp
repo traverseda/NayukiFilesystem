@@ -8,11 +8,16 @@ interface File extends(QuerySet(File)){
    #adds the `deleted` tag to the old copy.
 }
 
-interface TempFile extends(QuerySet(TempFile)){
-   #Tempfiles are addresable by uuid and support
+interface MutableFile extends(QuerySet(MutableFile)){
+   #MutableFiles are addresable by uuid and support
    #standard unix file operations
+   #They do not use copy-on-write.
+   #They exist mainly for the sake up bootstrapping the
+   #sqlite database, since almost everything else can
+   #be done using normal files.
 }
 
 interface Stream extends(QuerySet(Stream)){
-   #Streams are pubsub mechanism based on tags
+   #Streams are pubsub mechanisms based on tags
+   #They're similar to mqtt, but unordered
 }

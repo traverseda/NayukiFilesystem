@@ -1,28 +1,21 @@
-import fileStreamTools
-import asyncnet, asyncdispatch
+import reactor, capnp, caprpc
+from capnpSchema.NayukiFilesystem_schema import Services, Version, VersionKind
 
-var clients {.threadvar.}: seq[AsyncSocket]
+let serviceVersion = Version(kind:VersionKind.semVar,major:0, minor:0, patch:0)
 
+proc version(self: Services): Version =
+  return serviceVersion
 
-proc processClient(client: AsyncSocket) {.async.} =
-  while true:
-    let line = await client.recvLine()
-    if line.len == 0: break
-    for c in clients:
-      await c.send(line & "\c\L")
+proc main() {.async.} =
+  # let sys = newTwoPartyClient(await connectTcp("127.0.0.1:7890")) # localhost:6789
+  let server = await createTcpServer(7890)
 
-proc serve() {.async.} =
-  clients = @[]
-  var server = newAsyncSocket()
-  server.setSockOpt(OptReuseAddr, true)
-  server.bindAddr(Port(12345))
-  server.listen()
-  
-  while true:
-    let client = await server.accept()
-    clients.add client
-    
-    asyncCheck processClient(client)
+  let services = new(Services)
 
-asyncCheck serve()
-runForever()
+  echo "waiting for incoming connections"
+  asyncFor conn in server.incomingConnections:
+    echo "connection received"
+    discard newTwoPartyServer(conn.BytePipe, toGenericCapServer(services))
+
+when isMainModule:
+main().runMain()

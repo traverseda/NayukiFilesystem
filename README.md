@@ -11,6 +11,8 @@ info in sqlite for faster querying.
 As a component of the k operating system, the main way of interacting with it is
 over a capnproto RPC interface.
 
+As an object-oriented interface, it's inspired by django's ORM.
+
 nayukiFs addresses content using hashes, so it is defacto copy-on-write. A
 provision for temporary and special files, addressable via UUID, is intended.
 A convenience method, `.latest()`, should be used to get the latest file
@@ -37,3 +39,8 @@ Building requires several command line tools.
  * capnp, the code generator for the capnproto schema language
  * [capnp-nim](https://github.com/zielmicha/capnp.nim), the nim-lang extentions
    for capnproto. 
+
+# Architecture
+
+At it's core, NayukiFs is a [content-addressable
+storage](https://en.wikipedia.org/wiki/Content-addressable_storage) system.
