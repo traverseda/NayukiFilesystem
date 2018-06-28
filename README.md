@@ -2,7 +2,7 @@ As if this writing, the status of this component is: theoretical, this is all
 wishfull thinking.
 
 A filesystem component for the k operating system, inspired by
-[this](https://www.nayuki.io/page/designing-better-file-organization-around-tags-not-hierarchies)
+[Nayuki's](https://www.nayuki.io/page/designing-better-file-organization-around-tags-not-hierarchies)
 tag based filesystem post.
 
 It uses a traditional filesystem for actually storing the files, and caches tag
@@ -11,12 +11,15 @@ info in sqlite for faster querying.
 As a component of the k operating system, the main way of interacting with it is
 over a capnproto RPC interface.
 
-As an object-oriented interface, it's inspired by django's ORM.
+It's object-oriented interface is inspired by django's ORM.
 
 nayukiFs addresses content using hashes, so it is defacto copy-on-write. A
 provision for temporary and special files, addressable via UUID, is intended.
 A convenience method, `.latest()`, should be used to get the latest file
 matching a query.
+
+There's also intended to be a tag-based message-passing system, similar in usage
+to mqtt.
 
 Tags are somewhat complicated. Tags can be a namespace, storing a piece of
 metadata. For example, the tag `ctime:1529250290` would be perfectly valid. Of
