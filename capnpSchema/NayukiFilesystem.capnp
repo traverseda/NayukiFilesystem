@@ -11,9 +11,11 @@ struct Version @0x8441555316c8ea1b {
     }
 }
 
+using import "tags.capnp".QuerySet;
+using Fs = import "files.capnp";
 interface Services {
-    files @0 () -> (files :import "files.capnp".File);
-    mutableFiles @1 () -> (files :import "files.capnp".MutableFile);
-    stream @2 () -> (files :import "files.capnp".Stream);
-    version @3 () -> (version :Version);
+    version @0 () -> (version :Version);
+    files @1 () -> (querySet :QuerySet(Fs.File));
+    #mutableFiles @2 () -> (querySet :QuerySet(Fs.MutableFile));
+    #streams @3 () -> (querySet :QuerySet(Fs.Stream));
 }

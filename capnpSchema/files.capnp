@@ -1,14 +1,13 @@
 @0x95ea522d8ccfc280;
-using import "tags.capnp".QuerySet;
 
-interface File extends(QuerySet(File)){
+interface File {
    #Copy-on-write files can't be written to
    #so the `write` method creates a new file
    #with all the same tags as the old file, and
    #adds the `deleted` tag to the old copy.
 }
 
-interface MutableFile extends(QuerySet(MutableFile)){
+interface MutableFile {
    #MutableFiles are addresable by uuid and support
    #standard unix file operations
    #They do not use copy-on-write.
@@ -17,7 +16,7 @@ interface MutableFile extends(QuerySet(MutableFile)){
    #be done using normal files.
 }
 
-interface Stream extends(QuerySet(Stream)){
+interface Stream {
    #Streams are pubsub mechanisms based on tags
    #They're similar to mqtt, but unordered
 }

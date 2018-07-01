@@ -7,25 +7,31 @@
 #This lets you construct queries like `date:>1992` or
 #`score:>=50`.
 
-struct Tag {
-    name @0 :Text; #Canonical textual representation of this tag
-    uuid @5 :Data;
+struct Id @0xa90ddc98d0b52631 {
     union {
-        plainTag @1 :Void;
-        text @2 :Text;
-        bool @3 :Bool;
-        unixTime @4 :UInt64;
+        uuid @0 :Data;
+        sha256 @1 :Data;
     }
 }
 
-struct Query {
-    #Queries obviously need to be little chunka of bytecode.
-    #But without building a capnproto interface to webassembly
-    # we're just going to build a quick-and-dirty AST.
+struct DataTag(ExposedData){
+    id @0 :Id;
+    data @1 :ExposedData;
 }
 
-interface QuerySet(exposedObjectType) {
-    #We try to more or less follow django's queryset api
-    filter @0 (query :Query) -> (self :QuerySet);
-    pop @1 () -> (result :exposedObjectType);
+struct Query {
+    statements @0 :List(Statement);
+    struct Statement {
+        tag @0 :Tag;
+    }
+}
+
+interface QuerySet(ExposedObjectType) {
+    #Queryset api inspired by dango
+    filter @0 (query :Query) -> (self :QuerySet); #Appends a query to a queryset
+    latest @1 () -> (result :ExposedObjectType);
+    pop @2 () -> (result :ExposedObjectType);
+    length @3 () -> (length :Int64);
+    byId @4 (id :Id) -> (result :ExposedObjectType);
+    copy @5 () -> (new :QuerySet);
 }

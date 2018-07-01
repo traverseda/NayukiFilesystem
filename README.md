@@ -1,9 +1,33 @@
+# What is this?
+
 As if this writing, the status of this component is: theoretical, this is all
 wishfull thinking.
 
 A filesystem component for the k operating system, inspired by
 [Nayuki's](https://www.nayuki.io/page/designing-better-file-organization-around-tags-not-hierarchies)
 tag based filesystem post.
+
+The goal is to build on component that you can use to build complete
+applications, so nayukiFs needs to support a number of different ways accessing
+and storing data.
+
+We prodide an efficient capnproto based RPC mechanism for accessing the service.
+This is statically typed and objected oriented. There are several types of
+tagged objects made available over our RPC.
+
+ * Files, which are basic, immutable, copy-on-write file objects. You can't edit
+   them, you can only make a new copy of them and mark the old one as out of
+   date. They are generally addressed by an sha256sum.
+ * MutableFiles, which are traditional unix files. They don't work very well in
+   clusters though. They exist for reasons of backwards compatability, and where
+   possible we recomend you use the `Files` api instead. Addressable by UUID.
+ * Streams, which are a lot like an unorderd mqtt stream. You can simply publish
+   or subscribe a message to a set of tags.
+
+Later on, it's intended to be the hub service for a set of "serverless"
+distributed computing tools.
+
+# Architecture
 
 It uses a traditional filesystem for actually storing the files, and caches tag
 info in sqlite for faster querying.
@@ -43,7 +67,3 @@ Building requires several command line tools.
  * [capnp-nim](https://github.com/zielmicha/capnp.nim), the nim-lang extentions
    for capnproto. 
 
-# Architecture
-
-At it's core, NayukiFs is a [content-addressable
-storage](https://en.wikipedia.org/wiki/Content-addressable_storage) system.
