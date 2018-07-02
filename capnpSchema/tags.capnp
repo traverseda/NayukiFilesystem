@@ -14,9 +14,32 @@ struct Id @0xa90ddc98d0b52631 {
     }
 }
 
-struct DataTag(ExposedData){
-    id @0 :Id;
-    data @1 :ExposedData;
+struct PlainTag {
+    struct data {
+        id @0 :Id;
+    }
+    exists @1 :Bool;
+}
+
+struct GenericNumeralTag(ExposedData) {
+    struct data {
+        id @0 :Id;
+        value @2 :ExposedData;
+    }
+    exists @1 :Bool;
+    enum queryType {
+        greatorThan @3;
+        lesserThan @4;
+        equalTo @5;
+    } 
+}
+
+struct Tag {
+    union {
+        plain @0 :PlainTag;
+        uInt @1 :GenericNumeralTag(:UInt64)
+        unixTime @2 :GenericNumeralTag(:Int64)
+    }
 }
 
 struct Query {
