@@ -1,11 +1,10 @@
-@0xd7ba548c2e44f821;
-#This is meant to be a generic tagging interface
-#similar to the one used by tagsistant
-#In addition to traditional text tags like "file"
-#or "photo", you should be able to use "namespace"
-#tags. These tags have data, like `season:2`.
-#This lets you construct queries like `date:>1992` or
-#`score:>=50`.
+@0xe569486054391e10;
+#This file is full of dense and unpleasent tag definitions,
+#as I can't figure out a pleasent way to do this without
+#repeating myself a lot.
+
+#If you're reading this file, you should probably start with
+# `query.capnp`, as it's a lot more useful.
 
 struct Id @0xa90ddc98d0b52631 {
     union {
@@ -15,46 +14,40 @@ struct Id @0xa90ddc98d0b52631 {
 }
 
 struct PlainTag {
-    struct data {
+    struct Data {
         id @0 :Id;
     }
-    exists @1 :Bool;
+    struct Query {
+        exists @0 :Bool;
+    }
+    data @0 :Data;
+    query @1 :Query;
 }
 
-struct GenericNumeralTag(ExposedData) {
-    struct data {
+struct GenericNumeralTag {
+    #Generic query for all "== > <" tags
+    exists @0 :Bool;
+    enum QueryType {
+        greatorThan @0;
+        lesserThan @1;
+        equalTo @2;
+    }
+}
+
+struct UIntTag {
+    struct Data {
         id @0 :Id;
-        value @2 :ExposedData;
+        value @1 :UInt64;
     }
-    exists @1 :Bool;
-    enum queryType {
-        greatorThan @3;
-        lesserThan @4;
-        equalTo @5;
-    } 
+    data @0 :Data;
+    query @1 :GenericNumeralTag;
 }
 
-struct Tag {
-    union {
-        plain @0 :PlainTag;
-        uInt @1 :GenericNumeralTag(:UInt64)
-        unixTime @2 :GenericNumeralTag(:Int64)
+struct UnixTimestampTag {
+    struct Data {
+        id @0 :Id;
+        value @1 :Int64;
     }
-}
-
-struct Query {
-    statements @0 :List(Statement);
-    struct Statement {
-        tag @0 :Tag;
-    }
-}
-
-interface QuerySet(ExposedObjectType) {
-    #Queryset api inspired by dango
-    filter @0 (query :Query) -> (self :QuerySet); #Appends a query to a queryset
-    latest @1 () -> (result :ExposedObjectType);
-    pop @2 () -> (result :ExposedObjectType);
-    length @3 () -> (length :Int64);
-    byId @4 (id :Id) -> (result :ExposedObjectType);
-    copy @5 () -> (new :QuerySet);
+    data @0 :Data;
+    query @1 :GenericNumeralTag;
 }

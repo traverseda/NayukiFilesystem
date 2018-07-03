@@ -11,7 +11,7 @@ struct Version @0x8441555316c8ea1b {
     }
 }
 
-using import "tags.capnp".QuerySet;
+using import "query.capnp".QuerySet;
 using Fs = import "files.capnp";
 interface Services {
     version @0 () -> (version :Version);
