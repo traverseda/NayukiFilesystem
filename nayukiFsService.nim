@@ -1,8 +1,8 @@
 import reactor, capnp, caprpc
 # you can't use `from xxx import yyy` for schema files
-import capnpSchema.NayukiFilesystem_schema, capnpSchema.files_schema, capnpSchema.tags_schema
+import capnpSchema.NayukiFilesystem_schema, capnpSchema.files_schema, capnpSchema.tags_schema, capnpSchema.query_schema
 
-let serviceVersion = Version(kind:VersionKind.semVar,major:0, minor:0, patch:0)
+let serviceVersion = Version(kind:VersionKind.semVar,major:0, minor:1, patch:0)
 
 type ServiceImpl = ref object of RootObj
 
