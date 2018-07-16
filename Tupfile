@@ -11,5 +11,5 @@ NIMFLAGS += --threads:on
 !nim = |> nim c $(NIMFLAGS) --debugger:native -p:./ -o:%o %f && rm -rf .nimcache |>
 
 #: capnpSchema/files.capnp | capnpSchema/tags.capnp |>  capnp compile -onim %f > %o |> capnpSchema/%B.nim
-: foreach capnpSchema/*.capnp |>  capnp compile -onim %f > %o |> capnpSchema/%B_schema.nim
-: nayukiFsService.nim | capnpSchema/*.nim |> !nim |> nayukiFsService 
+: foreach src/capnpSchema/*.capnp |>  capnp compile -onim %f > %o |> src/capnpSchema/%B_schema.nim
+: src/nayukiFsService.nim | src/capnpSchema/*.nim |> !nim |> build/nayukiFsService 

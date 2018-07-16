@@ -11,7 +11,7 @@ The goal is to build on component that you can use to build complete
 applications, so nayukiFs needs to support a number of different ways accessing
 and storing data.
 
-We prodide an efficient capnproto based RPC mechanism for accessing the service.
+We provide an efficient capnproto based RPC mechanism for accessing the service.
 This is statically typed and objected oriented. There are several types of
 tagged objects made available over our RPC.
 
