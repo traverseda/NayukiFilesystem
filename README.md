@@ -29,9 +29,6 @@ distributed computing tools.
 
 # Architecture
 
-It uses a traditional filesystem for actually storing the files, and caches tag
-info in sqlite for faster querying.
-
 As a component of the k operating system, the main way of interacting with it is
 over a capnproto RPC interface.
 
@@ -67,3 +64,14 @@ Building requires several command line tools.
  * [capnp-nim](https://github.com/zielmicha/capnp.nim), the nim-lang extentions
    for capnproto. 
 
+# Storages
+
+## LMDB based storage
+
+LMDB is very fast, and on 64-bit unixes it makes more sense to just store file
+content in the LMDB database itself, rather than store it in the filesystem
+layer.
+
+Queries run in something like `O(min(len(s1), len(s2)))`, lookups by ID are `O(1)`.
+This means we should be faster than conventional filesystems as long as one of
+your tags doesn't include a huge number of objects.

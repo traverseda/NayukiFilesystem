@@ -1,5 +1,6 @@
 #! /bin/sh -e
-capnp compile -onim capnpSchema/NayukiFilesystem.capnp > capnpSchema/NayukiFilesystem_schema.nim
-capnp compile -onim capnpSchema/files.capnp > capnpSchema/files_schema.nim
-capnp compile -onim capnpSchema/tags.capnp > capnpSchema/tags_schema.nim
-nim c --nimcache:".nimcache" --threads:on -p:./ -o:nayukiFsService nayukiFsService.nim && rm -rf .nimcache
+capnp compile -onim src/capnpSchema/NayukiFilesystem.capnp > src/capnpSchema/NayukiFilesystem_schema.nim
+capnp compile -onim src/capnpSchema/files.capnp > src/capnpSchema/files_schema.nim
+capnp compile -onim src/capnpSchema/query.capnp > src/capnpSchema/query_schema.nim
+capnp compile -onim src/capnpSchema/tags.capnp > src/capnpSchema/tags_schema.nim
+nim c --nimcache:".nimcache" --threads:on --debugger:native -p:./ -o:build/nayukiFsService src/nayukiFsService.nim && rm -rf .nimcache

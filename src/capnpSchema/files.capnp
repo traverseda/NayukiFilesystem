@@ -11,9 +11,6 @@ interface MutableFile {
    #MutableFiles are addresable by uuid and support
    #standard unix file operations
    #They do not use copy-on-write.
-   #They exist mainly for the sake up bootstrapping the
-   #sqlite database, since almost everything else can
-   #be done using normal files.
 }
 
 interface Stream {

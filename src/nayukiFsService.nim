@@ -9,6 +9,11 @@ type ServiceImpl = ref object of RootObj
 proc version(self: ServiceImpl): Future[Version] {.async.} =
   return serviceVersion
 
+let filesQuery = distinct query_schema.QuerySet files_schema.File
+
+proc files(self: ServiceImpl): Future[filesQuery] {.async.} =
+  return filesQuery
+
 # implement other methods here
 
 capServerImpl(ServiceImpl, [Services])

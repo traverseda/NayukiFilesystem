@@ -24,7 +24,7 @@ struct PlainTag {
     query @1 :Query;
 }
 
-struct GenericNumeralTag {
+struct GenericNumeralQuery {
     #Generic query for all "== > <" tags
     exists @0 :Bool;
     enum QueryType {
@@ -40,7 +40,7 @@ struct UIntTag {
         value @1 :UInt64;
     }
     data @0 :Data;
-    query @1 :GenericNumeralTag;
+    query @1 :GenericNumeralQuery;
 }
 
 struct UnixTimestampTag {
@@ -49,5 +49,5 @@ struct UnixTimestampTag {
         value @1 :Int64;
     }
     data @0 :Data;
-    query @1 :GenericNumeralTag;
+    query @1 :GenericNumeralQuery;
 }

@@ -23,15 +23,15 @@ type
   PlainTag_Query* = ref object
     exists*: bool
 
-  GenericNumeralTag* = ref object
+  GenericNumeralQuery* = ref object
     exists*: bool
 
-  GenericNumeralTag_QueryType* {.pure.} = enum
+  GenericNumeralQuery_QueryType* {.pure.} = enum
     greatorThan = 0, lesserThan = 1, equalTo = 2
 
   UIntTag* = ref object
     data*: UIntTag_Data
-    query*: GenericNumeralTag
+    query*: GenericNumeralQuery
 
   UIntTag_Data* = ref object
     id*: Id
@@ -39,7 +39,7 @@ type
 
   UnixTimestampTag* = ref object
     data*: UnixTimestampTag_Data
-    query*: GenericNumeralTag
+    query*: GenericNumeralQuery
 
   UnixTimestampTag_Data* = ref object
     id*: Id
@@ -67,7 +67,7 @@ makeStructCoders(PlainTag_Query, [], [], [
   (exists, 0, false, true)
   ])
 
-makeStructCoders(GenericNumeralTag, [], [], [
+makeStructCoders(GenericNumeralQuery, [], [], [
   (exists, 0, false, true)
   ])
 

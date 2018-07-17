@@ -15,7 +15,7 @@ using import "query.capnp".QuerySet;
 using Fs = import "files.capnp";
 interface Services {
     version @0 () -> (version :Version);
-    #files @1 () -> (querySet :QuerySet(Fs.File));
+    files @1 () -> (querySet :QuerySet(Fs.File));
     #mutableFiles @2 () -> (querySet :QuerySet(Fs.MutableFile));
     #streams @3 () -> (querySet :QuerySet(Fs.Stream));
 }
